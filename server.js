@@ -14,7 +14,16 @@ app.use(bodyParser.json());
 
 // CORS
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:4200");
+  const host = req.headers.origin;
+  let whitelist = [
+    'http://shrouded-island-13135.herokuapp.com',
+    'http://localhost:4200'
+  ];
+  whitelist.forEach((item, index) => {
+    if(host.indexOf(item) > -1) {
+      res.header("Access-Control-Allow-Origin", host);
+    }
+  })
   res.header('Access-Control-Allow-Headers', 'Accept, Authorization, Content-Type, Origin, X-Requested-With');
   res.header('Access-Control-Allow-Methods', 'DELETE, GET, PATCH, POST, PUT');
   if (req.method === 'OPTIONS') {
@@ -32,8 +41,8 @@ app.use('/codes', codesRouter);
 let server;
 
 // for local database, use "databaseUrl=LOCAL_DB"
-// for hosted database, use "databaseUrl=CLOUD_DB"
-function runServer(databaseUrl=LOCAL_DB, port=PORT) {
+// for cloud database hosted by mLab, use "databaseUrl=CLOUD_DB"
+function runServer(databaseUrl=CLOUD_DB, port=PORT) {
   let promise = new Promise( (resolve, reject) => {
     mongoose.connect(databaseUrl, err => {
       if(err) {
