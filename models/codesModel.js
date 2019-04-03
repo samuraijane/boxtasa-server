@@ -9,8 +9,9 @@ const codeSchema = mongoose.Schema({
   keywords: [String],
   sampleNames: [String],
   subs: [{
+    _id : false,
     meaning: {type: String},
-    sign: {type: String},  
+    sign: {type: String},
   }],
   summary: {type: String},
   title: {type: String},
