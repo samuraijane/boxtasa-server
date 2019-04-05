@@ -2,6 +2,7 @@ require('dotenv').config();
 const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
+const passport = require('passport');
 
 mongoose.Promise = global.Promise;
 // https://stackoverflow.com/questions/51960171/node63208-deprecationwarning-collection-ensureindex-is-deprecated-use-creat
@@ -11,19 +12,20 @@ mongoose.set('useCreateIndex', true);
 
 const app = express();
 app.use(bodyParser.json());
+app.use(passport.initialize());
 
 // CORS
 app.use(function(req, res, next) {
-  const host = req.headers.origin;
-  let whitelist = [
-    'http://shrouded-island-13135.herokuapp.com',
-    'http://localhost:4200'
-  ];
-  whitelist.forEach((item, index) => {
-    if(host.indexOf(item) > -1) {
-      res.header("Access-Control-Allow-Origin", host);
-    }
-  })
+  // const host = req.headers.origin;
+  // let whitelist = [
+  //   'http://shrouded-island-13135.herokuapp.com',
+  //   'http://localhost:4200'
+  // ];
+  // whitelist.forEach((item, index) => {
+  //   if(host.indexOf(item) > -1) {
+  //     res.header("Access-Control-Allow-Origin", host);
+  //   }
+  // })
   res.header('Access-Control-Allow-Headers', 'Accept, Authorization, Content-Type, Origin, X-Requested-With');
   res.header('Access-Control-Allow-Methods', 'DELETE, GET, PATCH, POST, PUT');
   if (req.method === 'OPTIONS') {
@@ -33,10 +35,15 @@ app.use(function(req, res, next) {
 });
 
 const {PORT, LOCAL_DB, CLOUD_DB} = require('./config');
-const {codesRouter} = require('./routes');
+const {authRouter, codesRouter, usersRouter} = require('./routes');
+const {jwtStrategy, localStrategy} = require('./strategies');
 
+app.use('/auth', authRouter);
 app.use('/codes', codesRouter);
+app.use('/users', usersRouter);
 
+passport.use(jwtStrategy);
+passport.use(localStrategy);
 
 let server;
 
