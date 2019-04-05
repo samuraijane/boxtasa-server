@@ -16,16 +16,16 @@ app.use(passport.initialize());
 
 // CORS
 app.use(function(req, res, next) {
-  // const host = req.headers.origin;
-  // let whitelist = [
-  //   'http://shrouded-island-13135.herokuapp.com',
-  //   'http://localhost:4200'
-  // ];
-  // whitelist.forEach((item, index) => {
-  //   if(host.indexOf(item) > -1) {
-  //     res.header("Access-Control-Allow-Origin", host);
-  //   }
-  // })
+  const host = req.headers.origin;
+  let whitelist = [
+    'http://shrouded-island-13135.herokuapp.com',
+    'http://localhost:4200'
+  ];
+  whitelist.forEach((item, index) => {
+    if(host.indexOf(item) > -1) {
+      res.header("Access-Control-Allow-Origin", host);
+    }
+  })
   res.header('Access-Control-Allow-Headers', 'Accept, Authorization, Content-Type, Origin, X-Requested-With');
   res.header('Access-Control-Allow-Methods', 'DELETE, GET, PATCH, POST, PUT');
   if (req.method === 'OPTIONS') {
