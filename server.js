@@ -36,14 +36,14 @@ app.use(function(req, res, next) {
 
 const {PORT, LOCAL_DB, CLOUD_DB} = require('./config');
 const {authRouter, codesRouter, usersRouter} = require('./routes');
-const {jwtStrategy, localStrategy} = require('./strategies');
+// const {jwtStrategy, localStrategy} = require('./strategies');
 
 app.use('/auth', authRouter);
 app.use('/codes', codesRouter);
 app.use('/users', usersRouter);
 
-passport.use(jwtStrategy);
-passport.use(localStrategy);
+// passport.use(jwtStrategy);
+// passport.use(localStrategy);
 
 let server;
 
