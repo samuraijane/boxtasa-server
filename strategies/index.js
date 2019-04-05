@@ -1,3 +1,4 @@
+require('dotenv').config();
 const passport = require('passport');
 const { BasicStrategy } = require('passport-http');
 const LocalStrategy = require('passport-local').Strategy;
