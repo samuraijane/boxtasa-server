@@ -17,7 +17,7 @@ app.use(passport.initialize());
 // CORS
 app.use(function(req, res, next) {
   const host = req.headers.origin;
-  let whitelist = ["http://sj-boxtasa.herokuapp.com", "http://localhost:4200"];
+  let whitelist = ["https://sj-boxtasa.herokuapp.com", "http://localhost:4200"];
   whitelist.forEach((item, index) => {
     if (host.indexOf(item) > -1) {
       res.header("Access-Control-Allow-Origin", host);
